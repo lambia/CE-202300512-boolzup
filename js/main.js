@@ -1,8 +1,11 @@
 const { createApp } = Vue
 
+// this.dt = luxon.DateTime;
+
 createApp({
     data() {
         return {
+            activeConversation: 0,
             currentUser: {
                 name: "Patrik",
                 avatar: "./img/avatar_io.jpg"
@@ -174,7 +177,41 @@ createApp({
     },
     methods: {
         selezionaContatto(i) {
-            console.log("Contatto selezionato: ", i);
+            this.activeConversation = i;
+        },
+        getMessageClass(message) {
+            let classe = "sent-message";
+
+            if(message.status == "received") {
+                classe = "received-message";
+            }
+            
+            return classe;
+        },
+        getContactClass(i) {
+
+            //If con valore default
+            // let classe = "";
+
+            // if (this.activeConversation == i) {
+            //     classe = "activeContact";
+            // }
+
+            // return classe;
+
+            //Doppio return
+            // if (this.activeConversation == i) {
+            //     return "activeContact";
+            // }
+            
+            // return "";
+
+            //Ternario
+            return (this.activeConversation == i) ? "activeContact" : "";
         }
+    },
+    mounted() {
+        // const mydate = dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS)
+        // console.log('mydate :>> ', mydate);
     }
 }).mount('#app')

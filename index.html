@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoolzApp</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script> -->
     <script src="https://unpkg.com/vue@3"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
@@ -32,23 +33,28 @@
                 search
             </div>
             <div class="contacts">
-                <div v-for="(contact, i) in contacts" class="contact" @click="selezionaContatto(i)">
+                <div v-for="(contact, i) in contacts" class="contact" :class="getContactClass(i)" @click="selezionaContatto(i)">
                     <div class="contact-avatar">
                         <img class="avatar" :src="contact.avatar" >
                     </div>
-                    <div class="contact-text">{{i}} : {{contact.name}}</div>
+                    <div class="contact-text">{{contact.name}}</div>
                     <div class="contact-time">12:00</div>
                 </div>
             </div>
         </div>
         <div class="right">
-            <div class="conversation-profile placeholder-bg">
-                conversation
+            <div class="conversation-profile">
+                <div class="profile-left">
+                    <img class="avatar" :src="contacts[activeConversation].avatar" >
+                    <span>{{ contacts[activeConversation].name }}</span>
+                </div>
             </div>
             <div class="conversation-messages">
-                <div class="message sent-message">Placeholder Inviato</div>
-                <div class="message received-message">Placeholder Ricevuto</div>
-                <div v-for="message in contacts[0].messages" class="message sent-message">{{message}}</div>
+                <!-- <div class="message sent-message">Placeholder Inviato</div>
+                <div class="message received-message">Placeholder Ricevuto</div> -->
+                <div v-for="(message, i) in contacts[activeConversation].messages" class="message" :class="getMessageClass(message)">
+                    {{message.message}}
+                </div>
             </div>
             <div class="new-message placeholder-bg">
                 new message

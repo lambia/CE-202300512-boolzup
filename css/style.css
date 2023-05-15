@@ -111,6 +111,14 @@ a {
 .contact {
     display: flex;
 }
+
+.contact:hover {
+    background-color: #EEEEEE;
+}
+.contact.activeContact {
+    background-color: #E0E0E0;
+}
+
 .contact-avatar {
     padding: 0.25rem;
     width: var(--contact-avatar-width);
@@ -147,8 +155,9 @@ a {
     justify-content: space-between;
     background-color: #DDD;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
 }
+
 .conversation-messages {
     height: calc( 100% - var(--profile-height) - var(--new-message-height));
     background-image: url(../img/mine.jpg);
