@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoolzApp</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script>
     <script src="https://unpkg.com/vue@3"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
@@ -30,10 +30,10 @@
                 notification
             </div>
             <div class="search placeholder-bg">
-                search
+                <input v-model="searchText" @keyup="searchContact" >
             </div>
             <div class="contacts">
-                <div v-for="(contact, i) in contacts" class="contact" :class="getContactClass(i)" @click="selezionaContatto(i)">
+                <div v-for="(contact, i) in contacts" v-show="contact.visible" class="contact" :class="getContactClass(i)" @click="selezionaContatto(i)">
                     <div class="contact-avatar">
                         <img class="avatar" :src="contact.avatar" >
                     </div>
@@ -54,10 +54,15 @@
                 <div class="message received-message">Placeholder Ricevuto</div> -->
                 <div v-for="(message, i) in contacts[activeConversation].messages" class="message" :class="getMessageClass(message)">
                     {{message.message}}
+                    <small class="orario">{{message.date}}</small>
+                    <small class="delete" @click="deleteMessage(i)">ELIMINA</small>
                 </div>
             </div>
             <div class="new-message placeholder-bg">
-                new message
+                <input v-model="newMessage" @keyup.enter="sendMessage">
+                <button @click="sendMessage">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
 

@@ -1,6 +1,6 @@
 const { createApp } = Vue
 
-// this.dt = luxon.DateTime;
+// const dt = luxon.DateTime; //dichiarazione di Luxon come globale
 
 createApp({
     data() {
@@ -10,6 +10,9 @@ createApp({
                 name: "Patrik",
                 avatar: "./img/avatar_io.jpg"
             },
+            dt: luxon.DateTime, //dichiarazione di Luxon nel data
+            searchText: "",
+            newMessage: "",
             contacts: [
                 {
                     name: 'Michele',
@@ -208,10 +211,62 @@ createApp({
 
             //Ternario
             return (this.activeConversation == i) ? "activeContact" : "";
+        },
+        sendMessage() {
+
+            this.addMessage( this.newMessage , 'sent');
+
+            this.newMessage = "";
+
+            // setTimeout(function() {
+            //     ...codice
+            //     console.log(this); //this => window
+            // });
+
+            // setTimeout(()=> {
+            //     ...codice
+            //     console.log(this); //this => istanza di Vue
+            // });
+
+            // Ricordate che senza tonde ci riferiamo alla definizione della funzione, per uso successivo
+            // x = this.addMessage;
+            // Con le tonde invece la eseguiamo subito
+            // x("nuovo messaggio", "sent");
+            
+            setTimeout(() => this.addMessage("OK", 'received'), 1000);
+
+        },
+        addMessage(message, status) {
+            
+            this.contacts[ this.activeConversation ].messages.push({
+                date: this.dt.now().setLocale('it').toFormat('dd/MM/yyyy hh:mm:ss'),
+                message: message,
+                status: status
+            });
+
+        },
+        searchContact() {
+            const toSearch = this.searchText.toLowerCase();
+
+            this.contacts.forEach((contact) =>{
+                const contactName = contact.name.toLowerCase();
+
+                // if( contactName.includes(toSearch) ) {
+                //     contact.visible = true;
+                // } else {
+                //     contact.visible = false;
+                // }
+
+                contact.visible = contactName.includes(toSearch);
+            });
+
+            console.log(this.contacts);
+        },
+        deleteMessage(i) {
+            this.contacts[this.activeConversation].messages.splice(i, 1);
         }
     },
     mounted() {
-        // const mydate = dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS)
-        // console.log('mydate :>> ', mydate);
+
     }
 }).mount('#app')
